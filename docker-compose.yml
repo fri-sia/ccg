@@ -1,0 +1,35 @@
+
+version: '3.7'
+
+services:
+  ccg-app:
+    container_name: ccg-app
+    build:
+      context: .
+      target: base
+      dockerfile: Dockerfile
+    environment:
+      # Variables to connect to our Postgres server
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: ccg
+      PGPORT: 5432
+      # Hostname of our Postgres container
+      PGHOST: ccg-db
+    volumes:
+      - ./mix.exs:/app/mix.exs
+      - ./priv:/app/priv
+      - ./test:/app/test
+      - ./lib:/app/lib
+      - ./config:/app/config
+      - ./assets:/app/assets
+    expose:
+      - '4000'
+    ports:
+      - '4000:4000'
+    command: sh entrypoint.sh
+  ccg-db:
+    image: 'postgres:13-alpine'
+    container_name: ccg-db
+    environment:
+      POSTGRES_PASSWORD: postgres
