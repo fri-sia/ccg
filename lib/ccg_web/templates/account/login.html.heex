@@ -1,0 +1,21 @@
+<div class="account-page">
+    <h1>Log in</h1>
+    <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi necessitatibus facere voluptate molestiae excepturi, et impedit quisquam, vero exercitationem aliquam vitae explicabo inventore culpa quaerat repellat cum magni veniam! Reiciendis.
+    </p>
+    <form action="/account/login" method="post" class="simple-form mt-3">
+        <div class="input-group">
+            <label for="email">Email</label>
+            <input type="text" name="email" />
+        </div>
+
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" class="" />
+        </div>
+
+        <input type="hidden" name="_csrf_token" {@token} />
+    
+        <button class="btn mt-1" type="submit">Log in</button>
+    </form>
+</div>
