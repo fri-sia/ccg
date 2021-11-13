@@ -21,7 +21,7 @@ config :ccg, CcgWeb.Endpoint,
   http: [ip: {0, 0, 0, 0}, port: 4000],
   check_origin: false,
   code_reloader: true,
-  reloadable_compilers: [:phoenix_sass],
+  reloadable_compilers: [:phoenix_sass, :gettext, :phoenix, :elixir],
   debug_errors: true,
   secret_key_base: "rFCMNLpuQ5nrluSSJ41BVShSqOoXz0gDt2+ZTQtTyMnm5DREQD48KbeHbpM/zmdI",
   watchers: [

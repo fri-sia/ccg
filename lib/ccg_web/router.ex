@@ -18,6 +18,7 @@ defmodule CcgWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/account", AccountController, :index
   end
 
   # Other scopes may use custom stacks.

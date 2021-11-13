@@ -1,4 +1,35 @@
+// Lib imports
+@import './lib/layout.scss';
 
-h1 {
-    font-size: 42px;
+// global stylings
+@import './app.scss';
+@import './jakarta.scss';
+
+// page specific stylings
+@import './pages/account.scss';
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+    font-size: 18px;
+}
+
+body {
+  margin: 0;
+  font-family: jakarta;
+}
+
+// Header and navigation
+.main-header {
+    padding: 2rem;
+    background: #fffff9;
+    border-bottom: 1px solid rgba(0,0,0,0.25);
+
+    
+
+    .brand {
+        font-weight: 500;
+    }
 }

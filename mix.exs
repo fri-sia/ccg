@@ -50,6 +50,7 @@ defmodule Ccg.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:phoenix_sass, "~> 0.1.8"},
+      {:bcrypt_elixir, "~> 2.3.0"}
     ]
   end
 
