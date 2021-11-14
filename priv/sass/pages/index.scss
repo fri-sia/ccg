@@ -1,0 +1,6 @@
+@import '../lib/layout.scss';
+
+.index-page {
+    @extend %container;
+    margin-top: 4rem;
+}

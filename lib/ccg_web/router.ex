@@ -8,6 +8,7 @@ defmodule CcgWeb.Router do
     plug :put_root_layout, {CcgWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug CcgWeb.Plugs.Auth
   end
 
   pipeline :api do
@@ -23,6 +24,7 @@ defmodule CcgWeb.Router do
       get "/", AccountController, :index
       get  "/login", AccountController, :login
       post "/login", AccountController, :verify_login
+      post "/logout", AccountController, :logout
     end
   end
 

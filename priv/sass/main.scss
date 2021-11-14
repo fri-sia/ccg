@@ -12,11 +12,18 @@
 @import './components/buttons.scss';
 
 // page specific stylings
+@import './pages/index.scss';
 @import './pages/account.scss';
 
 *, *::before, *::after {
   box-sizing: border-box;
 }
+
+.std-container {
+  @extend %container;
+}
+
+// Typography
 
 html {
     font-size: 18px;
@@ -34,6 +41,17 @@ body {
   font-family: jakarta;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  max-width: 25ch;
+}
+
+h2.sc {
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
 // Header and navigation
 .main-header {
     padding: 2rem;
@@ -43,6 +61,7 @@ body {
     
 
     .brand {
-        font-weight: 500;
+        font-weight: 700;
+        font-size: 14px;
     }
 }

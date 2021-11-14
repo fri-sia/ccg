@@ -3,7 +3,7 @@
     <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi necessitatibus facere voluptate molestiae excepturi, et impedit quisquam, vero exercitationem aliquam vitae explicabo inventore culpa quaerat repellat cum magni veniam! Reiciendis.
     </p>
-    <form action="/account/login" method="post" class="simple-form mt-3">
+    <.form for={@conn} class="simple-form mt-3" phx-submit="verify_login">
         <div class="input-group">
             <label for="email">Email</label>
             <input type="text" name="email" />
@@ -15,7 +15,7 @@
         </div>
 
         <input type="hidden" name="_csrf_token" {@token} />
-    
+
         <button class="btn mt-1" type="submit">Log in</button>
-    </form>
+    </.form>
 </div>

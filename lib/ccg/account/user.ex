@@ -17,4 +17,5 @@ defmodule Ccg.Account.User do
     |> validate_required([:email, :password_hash])
   end
 
+
 end

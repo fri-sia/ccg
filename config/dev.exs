@@ -9,6 +9,9 @@ config :ccg, Ccg.Repo,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
+config :ccg,
+  user_token_signing_salt: "user auth"
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
