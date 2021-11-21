@@ -26,6 +26,12 @@ defmodule CcgWeb.Router do
       post "/login", AccountController, :verify_login
       post "/logout", AccountController, :logout
     end
+
+    scope "/lobby" do
+      live "/", LobbyViewLive, :index
+      live "/new", LobbyViewLive, :new
+      live "/:lobbyname", LobbyViewLive, :get_lobby
+    end
   end
 
   # Other scopes may use custom stacks.

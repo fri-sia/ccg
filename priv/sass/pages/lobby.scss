@@ -1,0 +1,22 @@
+@import '../lib/colors.scss';
+@import '../lib/shadow.scss';
+
+h2.lobby-list-title {
+    font-size: 21px;
+    border-radius: 0.5rem;
+}
+
+.lobby-list {
+    .lobby {
+        display: block;
+        border: 1px solid #ccc;
+        border-radius: 0.5rem;
+        padding: 2rem;
+        margin-top: 1rem;
+        @include basic-shadow(1);
+        .lobby-id {
+            font-size: 18px;
+            font-weight: 500;
+        }
+    }
+}

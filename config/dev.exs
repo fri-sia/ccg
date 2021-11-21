@@ -24,7 +24,7 @@ config :ccg, CcgWeb.Endpoint,
   http: [ip: {0, 0, 0, 0}, port: 4000],
   check_origin: false,
   code_reloader: true,
-  reloadable_compilers: [:phoenix_sass, :gettext, :phoenix, :elixir],
+  reloadable_compilers: [:phoenix_sass, :gettext, :phoenix, :elixir, :live_view],
   debug_errors: true,
   secret_key_base: "rFCMNLpuQ5nrluSSJ41BVShSqOoXz0gDt2+ZTQtTyMnm5DREQD48KbeHbpM/zmdI",
   watchers: [
@@ -61,10 +61,12 @@ config :ccg, CcgWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/sass/.*(sass|scss)$",
-      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/static/.*(js|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/static/css/main.css",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/ccg_web/(live|views)/.*(ex)$",
-      ~r"lib/ccg_web/templates/.*(eex)$"
+      ~r"lib/ccg_web/templates/.*(eex)$",
+      ~r"lib/ccg_web/live_views/.*(eex)$"
     ]
   ]
 

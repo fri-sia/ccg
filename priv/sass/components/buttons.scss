@@ -16,3 +16,31 @@
         cursor: pointer;
     }
 }
+
+.huge-btn {
+    background: $burgundy;
+    border: 0;
+    outline: 0;
+    padding: 0;
+    text-align: left;
+    display: inline-grid;
+    grid-template-columns: 2rem min-content [content] 2rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: white;
+    font-size: 21px;
+    text-decoration: none;
+    &::before {
+        content: '';
+        transition: border 300ms;
+        border-left: 0rem solid $saffron;
+    }
+    &:hover::before {
+        border-left: 1.5rem solid $saffron;
+    }
+    .btn-text {
+        grid-column: 2;
+        padding: 1rem 0;
+        align-self: center;
+    }
+}

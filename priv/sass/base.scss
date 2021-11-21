@@ -1,0 +1,68 @@
+
+@import './lib/layout.scss';
+@import './lib/colors.scss';
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.std-container {
+  @extend %container;
+}
+
+// Typography
+
+html {
+    font-size: 18px;
+    color: $textColor;
+    text-rendering: optimizeLegibility;
+    background: #fffffc;
+}
+
+p {
+    max-width: 50ch;
+}
+
+body {
+  margin: 0;
+  font-family: jakarta;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  max-width: 25ch;
+}
+
+h3.sc {
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+h2.sc {
+  font-size: 18px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+// Header and navigation
+.main-header {
+    padding: 2rem;
+    background: #fffff9;
+    border-bottom: 1px solid rgba(0,0,0,0.25);
+    display: flex;
+    nav {
+      margin-left: auto;
+    }
+    
+
+    .brand {
+        font-weight: 700;
+        font-size: 14px;
+    }
+}
+
+a {
+    color: $textColor;
+    text-decoration: none;
+}

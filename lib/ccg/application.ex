@@ -15,7 +15,9 @@ defmodule Ccg.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Ccg.PubSub},
       # Start the Endpoint (http/https)
-      CcgWeb.Endpoint
+      CcgWeb.Endpoint,
+      # Start the lobby registry
+      Ccg.Lobby.Registry,
       # Start a worker by calling: Ccg.Worker.start_link(arg)
       # {Ccg.Worker, arg}
     ]

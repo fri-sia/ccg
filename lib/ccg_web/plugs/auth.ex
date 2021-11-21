@@ -7,18 +7,47 @@ defmodule CcgWeb.Plugs.Auth do
 
   def call(conn, _default) do
     conn = fetch_cookies(conn)
-    user_token = conn.cookies["ccg-user-token"]
-    user_id_res = Token.verify CcgWeb.Endpoint,
+    user_token = get_session(conn, "ccg-user-token")
+    claims_res = Token.verify CcgWeb.Endpoint,
       Application.get_env(:ccg, :user_token_signing_salt),
       user_token
-    case user_id_res do
-      {:ok, user_id} ->
-        user = Repo.get(Ccg.Account.User, user_id)
+    case claims_res do
+      {:ok, claims} ->
+        user = Repo.get(Ccg.Account.User, claims["user_id"])
         assign(conn, :user, user)
       {:error, _t} ->
         conn
         |> Plug.Conn.delete_resp_cookie("ccg-user-token")
         |> assign(:user, nil)
     end
+  end
+end
+
+defmodule CcgWeb.Auth do
+  alias Phoenix.Token
+  alias Ccg.Repo
+
+  def user_id(session) do
+    token = Map.get session, "ccg-user-token"
+    claims = Token.verify CcgWeb.Endpoint,
+      Application.get_env(:ccg, :user_token_signing_salt),
+      token
+    case claims do
+      {:ok, claims} -> {:ok, claims["user_id"]}
+      err -> err
+    end
+  end
+
+  def user(session) do
+    id = user_id(session)
+    case id do
+      {:ok, id} -> {:ok, Repo.get!(Ccg.Account.User, id)}
+      err -> err
+    end
+  end
+
+  def assign_user(socket, session) do
+    {:ok, user} = user(session)
+    Phoenix.LiveView.assign(socket, :user, user)
   end
 end

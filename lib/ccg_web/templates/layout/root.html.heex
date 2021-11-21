@@ -12,7 +12,9 @@
   <body>
     <header class="main-header">
       <div class="brand">CCG—Column Card Game</div>
-      <nav></nav>
+      <nav>
+        <%= if !is_nil(@user), do: @user.email, else: "Not logged in" %>
+      </nav>
     </header>
 
     <%= @inner_content %>

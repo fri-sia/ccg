@@ -7,7 +7,7 @@ defmodule CcgWeb.AccountController do
   def index(conn, _params) do
     case conn.assigns.user do
       nil -> redirect(conn, to: Routes.account_path(conn, :login))
-      user -> render(conn, "index.html")
+      _user -> render(conn, "index.html")
     end
   end
 
@@ -37,9 +37,11 @@ defmodule CcgWeb.AccountController do
 
   # Private functions
   defp setup_user(conn, user) do
-    token = Token.sign(CcgWeb.Endpoint, Application.get_env(:ccg, :user_token_signing_salt), user.id)
+    token = Token.sign(CcgWeb.Endpoint, Application.get_env(:ccg, :user_token_signing_salt), %{
+      "user_id" => user.id
+    })
     cookied_conn = conn
-    |> put_resp_cookie("ccg-user-token", token)
+    |> put_session("ccg-user-token", token)
     cookied_conn |> redirect(to: Routes.account_path(cookied_conn, :index))
   end
 

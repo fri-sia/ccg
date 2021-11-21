@@ -10,58 +10,12 @@
 @import './components/simple_form.scss';
 @import './components/spacing.scss';
 @import './components/buttons.scss';
+@import './components/pill.scss';
+
+// Base
+@import './base.scss';
 
 // page specific stylings
 @import './pages/index.scss';
 @import './pages/account.scss';
-
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
-.std-container {
-  @extend %container;
-}
-
-// Typography
-
-html {
-    font-size: 18px;
-    color: #333;
-    text-rendering: optimizeLegibility;
-    background: #fffffc;
-}
-
-p {
-    max-width: 50ch;
-}
-
-body {
-  margin: 0;
-  font-family: jakarta;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  margin: 0;
-  max-width: 25ch;
-}
-
-h2.sc {
-  font-size: 16px;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-
-// Header and navigation
-.main-header {
-    padding: 2rem;
-    background: #fffff9;
-    border-bottom: 1px solid rgba(0,0,0,0.25);
-
-    
-
-    .brand {
-        font-weight: 700;
-        font-size: 14px;
-    }
-}
+@import './pages/lobby.scss';
