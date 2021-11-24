@@ -2,7 +2,6 @@ defmodule CcgWeb.AccountController do
   use CcgWeb, :controller
   alias Ccg.Repo
   alias Ccg.Account.User
-  alias Phoenix.Token
 
   def index(conn, _params) do
     case conn.assigns.user do
@@ -37,11 +36,10 @@ defmodule CcgWeb.AccountController do
 
   # Private functions
   defp setup_user(conn, user) do
-    token = Token.sign(CcgWeb.Endpoint, Application.get_env(:ccg, :user_token_signing_salt), %{
-      "user_id" => user.id
-    })
+    token = CcgWeb.Auth.sign_user(user)
     cookied_conn = conn
     |> put_session("ccg-user-token", token)
+
     cookied_conn |> redirect(to: Routes.account_path(cookied_conn, :index))
   end
 

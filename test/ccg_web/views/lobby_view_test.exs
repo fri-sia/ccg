@@ -1,8 +1,10 @@
 defmodule CcgWeb.LobbyViewTest do
-  use CcgWeb.ConnCase
+  use CcgWeb.ConnCase, async: true
+
+  @moduletag :requires_login
 
   test "get lobby index", %{conn: conn} do
-    conn = get(conn, Routes.lobby_view_path(conn, :index))
+    conn = get(conn, "/lobby")
     assert html_response(conn, 200) =~ "Lobbies"
   end
 end

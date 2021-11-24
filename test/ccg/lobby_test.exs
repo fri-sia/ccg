@@ -1,11 +1,15 @@
 defmodule Ccg.LobbyTest do
   use ExUnit.Case, async: true
   alias Ccg.Lobby
+  alias Ccg.Account.User
 
   defp mk_lobby() do
     Lobby.Registry.new_lobby(%{
       gamemode: :draft,
-      created_by: 0
+      created_by: %User{
+        email: "test@example.com",
+        password_hash: "aesntean",
+      }
     })
   end
 

@@ -50,4 +50,14 @@ defmodule CcgWeb.Auth do
     {:ok, user} = user(session)
     Phoenix.LiveView.assign(socket, :user, user)
   end
+
+  def sign_user(user) do
+    sign_user_id(user.id)
+  end
+
+  def sign_user_id(user_id) do
+    Token.sign(CcgWeb.Endpoint, Application.get_env(:ccg, :user_token_signing_salt), %{
+      "user_id" => user_id
+    })
+  end
 end
