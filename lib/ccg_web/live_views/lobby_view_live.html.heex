@@ -42,15 +42,23 @@
                 <h3>Members</h3>
                 <ul id="player-list">
                     <%= for user <- Map.values(@lobby.inhabitants) do %>
-                        <li id={"player-list-#{user.id}"}><%= user.email %></li>
+                        <li id={"player-list-#{user.id}"}><%= user.name %></li>
                     <% end %>
                 </ul>
             </div>
             <div class="chat-container">
                 <h3>Chat</h3>
-                <div id="chat-messages">
-                    <%= for {author, ts, msg} <- @lobby.messages do %>
+                <input type="text">
+                <div id="chat-messages" phx-update="prepend">
+                    <%= for {author, ts, msg} <- @messages do %>
                         <div class="chat-message" id={"chat-message-#{author}-#{Timex.to_datetime(ts)}"}>
+                            <div class="author">
+                            <%= case author do
+                                :system_msg -> ~H"""
+                                    <div class="system-message-author">SYSTEM</div>
+                                """
+                                {:user, user} -> user.name
+                            end %> </div>
                             <div class="time"><%= Timex.format!(ts, "{h24}:{m}:{s}") %></div>
                             <div class="msg"><%= msg %></div>
                         </div>

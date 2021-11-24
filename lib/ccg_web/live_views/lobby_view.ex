@@ -23,11 +23,12 @@ defmodule CcgWeb.LobbyViewLive do
         socket = socket
           |> assign(:lobby, Lobby.Server.lobby_info(lobby))
           |> Auth.assign_user(session)
+        socket = socket |> assign(:messages, Enum.take(socket.assigns.lobby.messages, 20))
         if connected?(socket) do
           PubSub.subscribe(Ccg.PubSub, "lobby:#{socket.assigns.lobby.id}")
           Lobby.Server.join(lobby, socket.assigns.user)
         end
-        {:ok, socket}
+        {:ok, socket, temporary_assigns: [messages: []]}
       _ -> {:ok, redirect(socket, to: Routes.lobby_view_path(socket, :index))}
     end
   end
@@ -71,6 +72,10 @@ defmodule CcgWeb.LobbyViewLive do
   end
   def handle_info({:updated_lobby, lobby}, socket) do
     socket = update(socket, :lobbies, fn lobbies -> [lobby | lobbies] end)
+    {:noreply, socket}
+  end
+  def handle_info({:lobby, :new_msg, msg}, socket) do
+    socket = socket |> update(:messages, fn l -> [msg | l] end)
     {:noreply, socket}
   end
   def handle_info({:lobby, _update, lobby}, socket) do

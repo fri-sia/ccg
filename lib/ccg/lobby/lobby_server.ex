@@ -30,12 +30,14 @@ defmodule Ccg.Lobby.Server do
     case Map.has_key?(state.inhabitants, user.id) do
       true -> {:reply, {:ok, :already_in}, state}
       false ->
+        msg = {:system_msg, Timex.now(), "User #{user.name} joined"}
         state = state
           |> Map.update!(:inhabitants, &Map.put(&1, user.id, user))
-          |> Map.update!(:messages, &List.insert_at(&1, 0, {:system_msg, Timex.now(), "User #{user.email} joined"}))
+          |> Map.update!(:messages, &List.insert_at(&1, 0, msg))
 
         PubSub.broadcast(Ccg.PubSub, "lobbylist", {:updated_lobby, state})
         PubSub.broadcast(Ccg.PubSub, "lobby:#{state.id}", {:lobby, :user_joined, state})
+        PubSub.broadcast(Ccg.PubSub, "lobby:#{state.id}", {:lobby, :new_msg, msg})
         {:reply, {:ok, :joined}, state}
     end
   end
