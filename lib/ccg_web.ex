@@ -45,7 +45,8 @@ defmodule CcgWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {CcgWeb.LayoutView, "live.html"}
+        layout: {CcgWeb.LayoutView, "live.html"},
+        container: {:div, class: "live-view-container"}
 
       unquote(view_helpers())
     end

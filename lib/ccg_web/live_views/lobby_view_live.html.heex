@@ -1,4 +1,5 @@
-<div class="std-container mt-3 lobby-container">
+<% use Timex %>
+<div class="mt-4 lobby-container live-view-root">
     <h1><%= if @live_action == :index, do: "Lobbies", else: "Lobby" %></h1>
     <%= if @live_action == :index do %>
         <div class="create-lobby-container mt-2">
@@ -10,12 +11,25 @@
         </div>
 
         <h2 class="mt-3 lobby-list-title">Lobby list</h2>
-        <div class="lobby-list">
+        <div id="lobby-list" phx-update="prepend">
             <%= for lobby <- @lobbies do %>
-                <a href={Routes.lobby_view_path(@socket, :get_lobby, lobby.id)} class="lobby">
-                    <h2 class="mb-2"><%= Ccg.Game.Util.gamemode_tostr(lobby.gamemode) %></h2>
-                    <h3 class="lobby-id">ID: <%= lobby.id %></h3>
-                    <div class="mt-05"><%= lobby.created_by.email %></div>
+                <a class={if Map.has_key?(lobby, :deleted), do: "hidden lobby", else: "lobby"}
+                    id={lobby.id} href={Routes.lobby_view_path(@socket, :get_lobby, lobby.id)}>
+                    <%= if !Map.has_key?(lobby, :deleted) do %>
+                        <h2 class="mb-2"><%= Ccg.Game.Util.gamemode_tostr(lobby.gamemode) %></h2>
+                        <h3 class="lobby-id">ID: <%= lobby.id %></h3>
+                        <div class="mt-05"><%= lobby.created_by.email %></div>
+                        <div class="mt-1">
+                            <div class="font-medium">
+                            Players
+                            </div>
+                            <ul>
+                                <%= for user <- Map.values(lobby.inhabitants) do %>
+                                    <li><%= user.email %></li>
+                                <% end %>
+                            </ul>
+                        </div>
+                    <% end %>
                 </a>
             <% end %>
         </div>
@@ -23,7 +37,28 @@
 
     <%= if @live_action == :get_lobby do %>
         <p class="pill"><emph>Lobby id:</emph> <%= @lobby.id %></p>
-        <div>
+        <div class="lobby-users mt-3">
+            <div class="members-container">
+                <h3>Members</h3>
+                <ul id="player-list">
+                    <%= for user <- Map.values(@lobby.inhabitants) do %>
+                        <li id={"player-list-#{user.id}"}><%= user.email %></li>
+                    <% end %>
+                </ul>
+            </div>
+            <div class="chat-container">
+                <h3>Chat</h3>
+                <div id="chat-messages">
+                    <%= for {author, ts, msg} <- @lobby.messages do %>
+                        <div class="chat-message" id={"chat-message-#{author}-#{Timex.to_datetime(ts)}"}>
+                            <div class="time"><%= Timex.format!(ts, "{h24}:{m}:{s}") %></div>
+                            <div class="msg"><%= msg %></div>
+                        </div>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+        <div class="mt-auto">
             <button class="btn" phx-click="kill_lobby">Destroy Lobby</button>
         </div>
     <% end %>

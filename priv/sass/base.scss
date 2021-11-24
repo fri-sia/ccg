@@ -2,12 +2,34 @@
 @import './lib/layout.scss';
 @import './lib/colors.scss';
 
+//basic layout
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
 .std-container {
   @extend %container;
+}
+
+body {
+    display: grid;
+    grid-template-rows: min-content 1fr 4rem;
+    min-height: 100vh;
+    & > .live-view-container main {
+      height: 100%;
+      display: grid;
+      grid-template-columns: minmax(2rem, 1fr) [content] minmax(600px, calc(1200px - 4rem)) minmax(2rem, 1fr);
+      grid-template-rows: min-content 1fr;
+      .flashes {
+        grid-column: content;
+      }
+      .live-view-root {
+        grid-column: content;
+        display: flex;
+        flex-direction: column;
+      }
+    }
 }
 
 // Typography
@@ -65,4 +87,28 @@ h2.sc {
 a {
     color: $textColor;
     text-decoration: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.font-light {
+  font-weight: 300;
+}
+
+.font-regular {
+  font-weight: 400;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.font-black {
+  font-weight: 900;
 }

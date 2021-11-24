@@ -6,7 +6,7 @@ h2.lobby-list-title {
     border-radius: 0.5rem;
 }
 
-.lobby-list {
+#lobby-list {
     .lobby {
         display: block;
         border: 1px solid #ccc;
@@ -18,5 +18,29 @@ h2.lobby-list-title {
             font-size: 18px;
             font-weight: 500;
         }
+    }
+}
+
+.lobby-users {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    grid-column-gap: 2rem;
+    .members-container {
+        padding: 1rem;
+        background: white;
+        box-shadow: 0 2px 3px rgba(0,0,0,0.08);
+        #player-list {
+            list-style: none;
+            padding: 0;
+            li {
+                margin-bottom: 0.5rem;
+                font-size: medium;
+            }
+        }
+    }
+    .chat-container {
+        padding: 1rem;
+        background: white;
+        box-shadow: 0 2px 3px rgba(0,0,0,0.08)
     }
 }

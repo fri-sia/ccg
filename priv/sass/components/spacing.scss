@@ -39,6 +39,10 @@
     margin-bottom: 4rem;
 }
 
+.mt-auto {
+    margin-top: auto;
+}
+
 .my-05 {
     @extend .mt-05;
     @extend .mb-05;

@@ -5,6 +5,7 @@ defmodule Ccg.Account.User do
 
   schema "users" do
     field :email, :string
+    field :name, :string
     field :password_hash, :string
     field :is_superuser, :boolean
 

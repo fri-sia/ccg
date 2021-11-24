@@ -11,6 +11,7 @@ defmodule CcgWeb.LobbyViewLive do
     {name, _pid} = Lobby.Registry.new_lobby(%{gamemode: :constructed, created_by: user})
     {:ok, redirect(socket, to: Routes.lobby_view_path(socket, :get_lobby, name))}
   end
+
   def mount(
     %{"lobbyname" => name},
     session,
@@ -20,12 +21,17 @@ defmodule CcgWeb.LobbyViewLive do
     case lobby do
       {:ok, lobby} ->
         socket = socket
-        |> assign(:lobby, Lobby.Server.lobby_info(lobby))
-        |> Auth.assign_user(session)
+          |> assign(:lobby, Lobby.Server.lobby_info(lobby))
+          |> Auth.assign_user(session)
+        if connected?(socket) do
+          PubSub.subscribe(Ccg.PubSub, "lobby:#{socket.assigns.lobby.id}")
+          Lobby.Server.join(lobby, socket.assigns.user)
+        end
         {:ok, socket}
       _ -> {:ok, redirect(socket, to: Routes.lobby_view_path(socket, :index))}
     end
   end
+
   def mount(_p, session, %{assigns: %{live_action: :index}} = socket) do
     if connected?(socket) do
       PubSub.subscribe(Ccg.PubSub, "lobbylist")
@@ -35,12 +41,13 @@ defmodule CcgWeb.LobbyViewLive do
       |> Enum.map(&Lobby.Registry.by_name/1)
       |> Enum.map(fn {:ok, lobby} -> lobby end)
       |> Enum.map(&Lobby.Server.lobby_info/1)
+      |> Enum.reverse()
 
     socket = socket
     |> assign(:lobbies, lobbies)
     |> Auth.assign_user(session)
 
-    {:ok, socket}
+    {:ok, socket, temporary_assigns: [lobbies: []]}
   end
 
   @impl true
@@ -59,7 +66,15 @@ defmodule CcgWeb.LobbyViewLive do
     {:noreply, socket}
   end
   def handle_info({:dropped_lobby, name}, socket) do
-    socket = update(socket, :lobbies, &Enum.filter(&1, fn lob -> lob.id != name end))
+    socket = update(socket, :lobbies, fn lobbies -> [%{id: name, deleted: true} | lobbies] end)
+    {:noreply, socket}
+  end
+  def handle_info({:updated_lobby, lobby}, socket) do
+    socket = update(socket, :lobbies, fn lobbies -> [lobby | lobbies] end)
+    {:noreply, socket}
+  end
+  def handle_info({:lobby, _update, lobby}, socket) do
+    socket = socket |> update(:lobby, fn _l -> lobby end)
     {:noreply, socket}
   end
   def handle_info(_msg, socket), do: {:noreply, socket}
