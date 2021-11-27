@@ -27,6 +27,8 @@ defmodule CcgWeb.Router do
       post "/logout", AccountController, :logout
     end
 
+    live "/misc/calculator", CalculatorLive, :index
+
     scope "/lobby" do
       live "/", LobbyViewLive, :index
       live "/new", LobbyViewLive, :new

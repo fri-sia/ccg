@@ -53,12 +53,25 @@ h2.lobby-list-title {
             grid-column-gap: 1rem;
             grid-row-gap: 0.25rem;
             grid-template-columns: min-content 1fr;
-            margin-top: 0.75rem;
+            margin-top: 1.25rem;
+            border-left: 0.25rem solid $saffron;
+            padding-left: 0.5rem;
+            align-items: baseline;
             .msg {
                 grid-column: 1 / -1;
+                &.system-author {
+                    font-style: italic;
+                    font-size: 0.8rem;
+                }
+            }
+            .system-message-author {
+                color: $burgundy;
+                opacity: 0.5;
+                font-size: 0.8rem;
             }
             .time {
                 font-weight: 300;
+                font-size: 0.8rem;
                 color: #666;
             }
             .author {

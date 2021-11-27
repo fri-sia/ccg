@@ -1,0 +1,25 @@
+<div class="live-view-root mt-4 calculator">
+    <h1>Calculator</h1>
+
+    <h3 class="mt-2">Result</h3>
+    <div class="result"><%= CcgWeb.CalculatorLive.render_exprs(@stack) %></div>
+
+    <div class="buttons">
+        <button phx-click="digit" value="1">1</button>
+        <button phx-click="digit" value="2">2</button>
+        <button phx-click="digit" value="3">3</button>
+        <button phx-click="operator" value="+">+</button>
+        <button phx-click="digit" value="4">4</button>
+        <button phx-click="digit" value="5">5</button>
+        <button phx-click="digit" value="6">6</button>
+        <button phx-click="operator" value="-">-</button>
+        <button phx-click="digit" value="7">7</button>
+        <button phx-click="digit" value="8">8</button>
+        <button phx-click="digit" value="9">9</button>
+        <button phx-click="operator" value="*">*</button>
+        <button phx-click="decimal">.</button>
+        <button phx-click="digit" value="0">0</button>
+        <button phx-click="calculate">=</button>
+        <button phx-click="reset">AC</button>
+    </div>
+</div>

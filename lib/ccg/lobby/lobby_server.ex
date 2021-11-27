@@ -43,6 +43,14 @@ defmodule Ccg.Lobby.Server do
   end
 
   @impl true
+  def handle_cast({:chat_msg, user, msg_text}, state) do
+    msg = {{:user, user}, Timex.now(), msg_text}
+    state = Map.update!(state, :messages, fn msgs -> [msg | msgs] end)
+    PubSub.broadcast(Ccg.PubSub, "lobby:#{state.id}", {:lobby, :new_msg, msg})
+    {:noreply, state}
+  end
+
+  @impl true
   def handle_info({:DOWN, ref, :process, _pid, _reason}, state) do
     user_id = Map.get(state.live_connections, ref)
     state = Map.update!(state, :live_connections, &Map.delete(&1, ref))
@@ -68,6 +76,10 @@ defmodule Ccg.Lobby.Server do
 
   def join(server, user) do
     GenServer.call(server, {:join, user})
+  end
+
+  def send_chat_message(server, user, msg) do
+    GenServer.cast(server, {:chat_msg, user, msg})
   end
 
 end

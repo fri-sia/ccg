@@ -3,6 +3,7 @@
 @import './lib/colors.scss';
 
 //basic layout
+$bg-base: #fcfcf8;
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -38,7 +39,7 @@ html {
     font-size: 18px;
     color: $textColor;
     text-rendering: optimizeLegibility;
-    background: #fffffc;
+    background: $bg-base;
 }
 
 p {
@@ -93,6 +94,8 @@ a {
   display: none !important;
 }
 
+// font utility classes
+
 .font-light {
   font-weight: 300;
 }
@@ -111,4 +114,17 @@ a {
 
 .font-black {
   font-weight: 900;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+// bg utility
+.bg-base {
+  background: $bg-base;
+}
+
+.bg-white {
+  background: white;
 }

@@ -1,4 +1,5 @@
 <% use Timex %>
+<% alias CcgWeb.LobbyViewLive.Helpers %>
 <div class="mt-4 lobby-container live-view-root">
     <h1><%= if @live_action == :index, do: "Lobbies", else: "Lobby" %></h1>
     <%= if @live_action == :index do %>
@@ -36,8 +37,8 @@
     <% end %>
 
     <%= if @live_action == :get_lobby do %>
-        <p class="pill"><emph>Lobby id:</emph> <%= @lobby.id %></p>
-        <div class="lobby-users mt-3">
+        <p class="pill bg-white mr-auto"><emph>Lobby id:</emph> <%= @lobby.id %></p>
+        <div class="lobby-users mt-2">
             <div class="members-container">
                 <h3>Members</h3>
                 <ul id="player-list">
@@ -48,10 +49,15 @@
             </div>
             <div class="chat-container">
                 <h3>Chat</h3>
-                <input type="text">
-                <div id="chat-messages" phx-update="prepend">
+                <form autocomplete="off" phx-submit="send_message"  
+                    onsubmit="setTimeout(() => {document.getElementById('chat-input-field').value = ''}, 20);"
+                >
+                    <input id="chat-input-field" type="text" name="chat-message" />
+                    <input type="submit" value="Send" />
+                </form>
+                <div id="chat-messages" class="mt-2" phx-update="prepend">
                     <%= for {author, ts, msg} <- @messages do %>
-                        <div class="chat-message" id={"chat-message-#{author}-#{Timex.to_datetime(ts)}"}>
+                        <div class="chat-message" id={"chat-message-#{Helpers.render_author(author)}-#{Timex.to_datetime(ts)}"}>
                             <div class="author">
                             <%= case author do
                                 :system_msg -> ~H"""
@@ -60,13 +66,13 @@
                                 {:user, user} -> user.name
                             end %> </div>
                             <div class="time"><%= Timex.format!(ts, "{h24}:{m}:{s}") %></div>
-                            <div class="msg"><%= msg %></div>
+                            <div class={"msg #{Helpers.msg_class(author)}"}><%= msg %></div>
                         </div>
                     <% end %>
                 </div>
             </div>
         </div>
-        <div class="mt-auto">
+        <div class="mt-auto pt-2">
             <button class="btn" phx-click="kill_lobby">Destroy Lobby</button>
         </div>
     <% end %>

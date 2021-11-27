@@ -22,6 +22,7 @@ defmodule CcgWeb.LobbyViewLive do
       {:ok, lobby} ->
         socket = socket
           |> assign(:lobby, Lobby.Server.lobby_info(lobby))
+          |> assign(:lobby_server, lobby)
           |> Auth.assign_user(session)
         socket = socket |> assign(:messages, Enum.take(socket.assigns.lobby.messages, 20))
         if connected?(socket) do
@@ -61,6 +62,12 @@ defmodule CcgWeb.LobbyViewLive do
     {:noreply, push_redirect(socket, to: Routes.lobby_view_path(socket, :index))}
   end
 
+  def handle_event("send_message", %{"chat-message" => msg}, socket) do
+    if String.length(msg) != 0,
+      do: Lobby.Server.send_chat_message(socket.assigns.lobby_server, socket.assigns.user, msg)
+    {:noreply, socket}
+  end
+
   @impl true
   def handle_info({:new_lobby, lobby_info}, socket) do
     socket = update(socket, :lobbies, fn lobbies -> [lobby_info | lobbies] end)
@@ -83,4 +90,12 @@ defmodule CcgWeb.LobbyViewLive do
     {:noreply, socket}
   end
   def handle_info(_msg, socket), do: {:noreply, socket}
+end
+
+defmodule CcgWeb.LobbyViewLive.Helpers do
+  def render_author(:system_msg), do: "SYSTEM"
+  def render_author({:user, user}), do: user.name
+
+  def msg_class(:system_msg), do: "system-author"
+  def msg_class({:user, _u}), do: "user-author"
 end
