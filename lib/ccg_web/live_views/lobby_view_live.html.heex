@@ -43,7 +43,7 @@
                 <h3>Members</h3>
                 <ul id="player-list">
                     <%= for user <- Map.values(@lobby.inhabitants) do %>
-                        <li id={"player-list-#{user.id}"}><%= user.name %></li>
+                        <li id={"player-list-#{user.id}"}><%= user.name %> <span class="text-sm font-light">(<%= @lobby.user_settings[user.id].role %>)</span></li>
                     <% end %>
                 </ul>
             </div>

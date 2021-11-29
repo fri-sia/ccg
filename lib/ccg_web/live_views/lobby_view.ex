@@ -29,7 +29,7 @@ defmodule CcgWeb.LobbyViewLive do
           PubSub.subscribe(Ccg.PubSub, "lobby:#{socket.assigns.lobby.id}")
           Lobby.Server.join(lobby, socket.assigns.user)
         end
-        {:ok, socket, temporary_assigns: [messages: []]}
+        {:ok, socket, temporary_assigns: [messages: [], user: socket.assigns.user]}
       _ -> {:ok, redirect(socket, to: Routes.lobby_view_path(socket, :index))}
     end
   end

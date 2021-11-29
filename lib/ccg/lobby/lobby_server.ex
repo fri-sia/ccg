@@ -3,7 +3,9 @@ defmodule Ccg.Lobby.ServerState do
   defstruct [:id, :gamemode, :created_by,
     inhabitants: %{},
     live_connections: %{},
+    user_settings: %{},
     messages: [],
+    game: nil,
     settings: %{}]
 end
 
@@ -34,6 +36,7 @@ defmodule Ccg.Lobby.Server do
         state = state
           |> Map.update!(:inhabitants, &Map.put(&1, user.id, user))
           |> Map.update!(:messages, &List.insert_at(&1, 0, msg))
+          |> Map.update!(:user_settings, &Map.put(&1, user.id, %{role: :player}))
 
         PubSub.broadcast(Ccg.PubSub, "lobbylist", {:updated_lobby, state})
         PubSub.broadcast(Ccg.PubSub, "lobby:#{state.id}", {:lobby, :user_joined, state})
